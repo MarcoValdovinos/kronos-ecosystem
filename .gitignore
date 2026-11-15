@@ -1,30 +1,14 @@
-# --- CREDENCIALES Y SECRETOS ---
-MP_ACCESS_TOKEN
-Environment
-.env
-.env.*
-*.pem
-*.key
-
-# --- ARCHIVOS DEL SISTEMA (iSH / iOS) ---
-.ash_history
-.bash_history
-.bashrc
-.profile
-.cache/
-.npm/
-.git-credentials
-.gitconfig
-
-# --- BASURA DE DESARROLLO ---
+# Ignorar los repositorios clonados
+ARKHE-AUTH--_-
+ARKHE-ZERO
+Co-Creatividad-Simbi-tica-y-Respeto-Digital
+KRONOS-VAULT-PROTOCOL
+arkhe-chain-v1
+arkhe-skills
+evidence-integrity-os-
+k4-exhaustion-framework-
+kronos-jurisdiction
+marco-mcp
+marv-integrity
+md-33
 node_modules/
-__pycache__/
-*.log
-*.zip
-*.bak
-*.pyc
-.DS_Store
-.ash_history
-.bash_history
-MP_ACCESS_TOKEN
-Environment
