@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SYCRO-VALDOVINOS - Verificador</title>
+<style>body{font-family:system-ui;background:#0a0a0a;color:#eee;max-width:700px;margin:20px auto;padding:20px}h1{color:#ffd700}.box{border:1px dashed #666;padding:20px;border-radius:12px;margin:12px 0;background:#111}input{width:100%;margin:8px 0}#res{font-size:22px;font-weight:800;padding:16px;border-radius:10px;text-align:center}.ok{background:#0a5c2e}.bad{background:#8b0000}.info{color:#aaa;font-size:13px}code{word-break:break-all;color:#ffd700}</style></head>
+<body>
+<h1>🔏 SYCRO-VALDOVINOS</h1>
+<p>Verificador oficial — Formato <b>.sycro-valdovinos.json</b><br>Autora: Marco A. Rojas Valdovinos | Manifiesto: TOLUCA-GLOBAL-e8d9eac8</p>
+<div class="box"><b>1. Archivo original</b><br><input type="file" id="f1"></div>
+<div class="box"><b>2. Certificado .sycro-valdovinos.json</b><br><input type="file" id="f2"></div>
+<button onclick="verificar()" style="width:100%;padding:14px;font-size:18px;background:#ffd700;border:0;border-radius:10px;font-weight:800;cursor:pointer">VERIFICAR AHORA</button>
+<div id="res" style="margin-top:16px">Esperando archivos...</div>
+<div id="det" class="info"></div>
+<script>
+async function sha256(buf){const h=await crypto.subtle.digest('SHA-256',buf);return [...new Uint8Array(h)].map(b=>b.toString(16).padStart(2,'0')).join('')}
+async function verificar(){
+  const a=document.getElementById('f1').files[0], b=document.getElementById('f2').files[0];
+  if(!a||!b){alert('Sube los 2 archivos');return}
+  const hash=await sha256(await a.arrayBuffer());
+  const cert=JSON.parse(await b.text());
+  const esperado=cert.file?.sha256||cert.sha256||'';
+  const res=document.getElementById('res'), det=document.getElementById('det');
+  if(hash===esperado){
+    res.className='ok'; res.textContent='✅ VÁLIDO - NOTARIZADO';
+    det.innerHTML=`<p><b>Folio:</b> ${cert.folio}<br><b>Archivo:</b> ${cert.file?.name}<br><b>Autor:</b> ${cert.author}<br><b>Marca:</b> ${cert.brand||'SYCRO-VALDOVINOS'}<br><b>SHA-256:</b><br><code>${hash}</code><br><b>Fecha:</b> ${cert.timestamp}<br><b>Estado:</b> ${cert.status}</p>`;
+  } else {
+    res.className='bad'; res.textContent='❌ ALTERADO - NO COINCIDE';
+    det.innerHTML=`<p>El archivo fue modificado después de notarizarse.<br><b>Calculado:</b><br><code>${hash}</code><br><b>Esperado:</b><br><code>${esperado}</code></p>`;
+  }
+}
+</script>
+</body></html>
